@@ -1,0 +1,10 @@
+[project]
+name = "zenml-archive-etl"
+version = "1.0.0"
+description = "Page-batch archive scraping ETL orchestrated with ZenML."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-q"

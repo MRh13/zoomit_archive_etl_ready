@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zoomit_archive_postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-archive_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archive_password}
+      POSTGRES_DB: ${POSTGRES_DB:-archive}
+    ports:
+      - "${POSTGRES_HOST_PORT:-15432}:5432"
+    volumes:
+      - zenml_archive_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-archive_user} -d ${POSTGRES_DB:-archive} -h 127.0.0.1",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  zenml_archive_postgres_data:
